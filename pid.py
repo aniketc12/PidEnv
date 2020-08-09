@@ -28,7 +28,9 @@ class PidEnv():
         self.error = self.setpoint - self.currpoint
 
         reward = -abs(self.error)
-        return (self.proportional, self.integral, self.derivative, self.error), reward
+        if reward == 0:
+            reward = 10
+        return (self.proportional, self.integral, self.derivative, self.error, self.setpoint), reward
 
     def reset(self):
         self.error = self.setpoint
