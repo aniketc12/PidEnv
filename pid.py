@@ -42,6 +42,7 @@ class PidEnv():
         self.kp = 1
         self.ki = 1
         self.kd = 1
+        return (self.proportional, self.integral, self.derivative, self.error, self.setpoint)
 
     def render(self):
         print("Error: "+str(self.error))
