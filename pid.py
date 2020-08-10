@@ -18,10 +18,10 @@ class PidEnv():
         self.kd = action[2]
 
         self.proportional = self.kp * self.error
-        self.integral += self.ki * self.error * self.sample_rate
+        self.integral += self.error * self.sample_rate
         self.derivative = self.kd * (self.error - self.last_error) / self.sample_rate
 
-        curr_input = self.proportional + self.integral + self.derivative
+        curr_input = self.proportional + self.ki * self.integral + self.derivative
 
         self.last_error = self.error
         self.currpoint += curr_input
@@ -30,7 +30,7 @@ class PidEnv():
         reward = -abs(self.error)
         if reward == 0:
             reward = 10
-        return (self.proportional, self.integral, self.derivative, self.error, self.setpoint), reward
+        return (self.proportional, self.ki * self.integral, self.derivative, self.error, self.setpoint), reward
 
     def reset(self):
         self.error = self.setpoint
